@@ -5,13 +5,7 @@ spring:
     port: 5672
     username: user
     password: JavaSchool.1234
-
-#Queue Configuration
-queue:
-  topic:
-    name: db-exchange
-  routing:
-    key: "#"
-  name: db-queue
-#queue.topic.name=tut.rpc
-#queue.routing.key=rpc
+    template:
+        default-receive-queue: db-queue
+        exchange: db-exchange
+        routing-key: "#"
