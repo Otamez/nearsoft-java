@@ -4,17 +4,17 @@ import java.io.Serializable;
 
 public class PackageTypeResponse implements Serializable {
 
-    private Integer id;
+    private int id;
     private String description;
-    private Double price;
+    private int price;
 
     public PackageTypeResponse(){}
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -26,11 +26,11 @@ public class PackageTypeResponse implements Serializable {
         this.description = description;
     }
 
-    public Double getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

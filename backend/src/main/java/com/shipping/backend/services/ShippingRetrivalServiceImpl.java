@@ -3,6 +3,7 @@ package com.shipping.backend.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.shipping.backend.entities.BaseRequestMessage;
 import com.shipping.backend.entities.PackageTypeResponse;
 import org.slf4j.Logger;
@@ -18,21 +19,20 @@ public class ShippingRetrivalServiceImpl implements  ShippingRetrivalService {
     private final static Logger log = LoggerFactory.getLogger(ShippingRetrivalServiceImpl.class);
 
     private ShippingRequestSender shippingRequestSender;
-    private BaseRequestMessage baseRequestMessage;
 
-    public  ShippingRetrivalServiceImpl( final ShippingRequestSender shippingRequestSender,
-                                         final BaseRequestMessage baseRequestMessage){
-        this.baseRequestMessage=baseRequestMessage;
+    public  ShippingRetrivalServiceImpl( final ShippingRequestSender shippingRequestSender){
         this.shippingRequestSender=shippingRequestSender;
     }
 
     @Override
     public List<PackageTypeResponse> getTypes() throws JsonProcessingException, JsonMappingException, IOException {
 
+            BaseRequestMessage baseRequestMessage = new BaseRequestMessage();
             ObjectMapper mapper = new ObjectMapper();
             baseRequestMessage.setType("packageType");
             String requestMessage = mapper.writeValueAsString(baseRequestMessage);
-            List<PackageTypeResponse> packageTypes = mapper.readValue(shippingRequestSender.sendRequest(requestMessage), List.class);
+            CollectionType responseType = mapper.getTypeFactory().constructCollectionType(List.class, PackageTypeResponse.class);
+            List<PackageTypeResponse> packageTypes = mapper.readValue(shippingRequestSender.sendRequest(requestMessage), responseType);
             return packageTypes;
 
     }
