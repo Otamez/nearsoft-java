@@ -5,6 +5,10 @@ spring:
     port: 5672
     username: user
     password: JavaSchool.1234
+    template:
+      default-receive-queue: db-queue
+      exchange: db-exchange
+      routing-key: "#"
 
 
 config-queue:
