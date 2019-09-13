@@ -9,9 +9,3 @@ spring:
       default-receive-queue: db-queue
       exchange: db-exchange
       routing-key: "#"
-
-
-config-queue:
-  name: db-queue
-  exchange: db-exchange
-  routing-key: "#"

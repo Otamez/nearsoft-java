@@ -8,6 +8,7 @@ import com.shipping.backend.services.ShippingRequestSender;
 import com.shipping.backend.services.ShippingRequestSenderImpl;
 import com.shipping.backend.services.ShippingRetrivalService;
 import com.shipping.backend.services.ShippingRetrivalServiceImpl;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -21,11 +22,19 @@ import static org.mockito.Mockito.mock;
 
 public class BackendApplicationTests {
 
-	private RabbitTemplate rabbitTemplate = mock(RabbitTemplate.class);
-    private ShippingRequestSender shippingRequestSender = new ShippingRequestSenderImpl(rabbitTemplate);
-    private ShippingRetrivalService shippingRetrivalService = new ShippingRetrivalServiceImpl(shippingRequestSender);
-    private ShippingRetrivalServiceController shippingRetrivalServiceController = new ShippingRetrivalServiceController(shippingRetrivalService);
-    private BaseRequestMessage baseRequestMessage = new BaseRequestMessage();
+    private static RabbitTemplate rabbitTemplate;
+    private static ShippingRequestSender shippingRequestSender;
+    private static ShippingRetrivalService shippingRetrivalService;
+    private static ShippingRetrivalServiceController shippingRetrivalServiceController;
+    private static BaseRequestMessage baseRequestMessage = new BaseRequestMessage();
+
+    @BeforeClass
+    public static void setUp(){
+        rabbitTemplate = mock(RabbitTemplate.class);
+        shippingRequestSender = new ShippingRequestSenderImpl(rabbitTemplate);
+        shippingRetrivalService = new ShippingRetrivalServiceImpl(shippingRequestSender);
+        shippingRetrivalServiceController = new ShippingRetrivalServiceController(shippingRetrivalService);
+    }
 
 	@Test
 	public void getTypeTest() throws IOException {
@@ -43,7 +52,7 @@ public class BackendApplicationTests {
 
         String mockTypes = new ObjectMapper().writeValueAsString(typeResponseArray);
         String mockRequest = new ObjectMapper().writeValueAsString(baseRequestMessage);
-        when(rabbitTemplate.convertSendAndReceive(null, null, mockRequest)).thenReturn(mockTypes);
+        when(rabbitTemplate.convertSendAndReceive(mockRequest)).thenReturn(mockTypes);
 
 		List<String> types = shippingRetrivalServiceController.getTypes();
 
