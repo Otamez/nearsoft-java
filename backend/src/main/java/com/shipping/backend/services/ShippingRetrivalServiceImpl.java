@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import com.shipping.backend.config.CommonVars;
 import com.shipping.backend.entities.BaseRequestMessage;
 import com.shipping.backend.entities.PackageTypeResponse;
 import org.slf4j.Logger;

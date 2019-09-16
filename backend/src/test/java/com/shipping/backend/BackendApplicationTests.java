@@ -1,6 +1,7 @@
 package com.shipping.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shipping.backend.config.CommonVars;
 import com.shipping.backend.controllers.ShippingRetrivalServiceController;
 import com.shipping.backend.entities.BaseRequestMessage;
 import com.shipping.backend.entities.PackageTypeResponse;
@@ -10,8 +11,12 @@ import com.shipping.backend.services.ShippingRetrivalService;
 import com.shipping.backend.services.ShippingRetrivalServiceImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.amqp.core.AmqpTemplate;
+import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.List;
