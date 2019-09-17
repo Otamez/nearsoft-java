@@ -4,11 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.shipping.backend.config.CommonVars;
+import com.shipping.backend.config.AppConfig;
 import com.shipping.backend.entities.BaseRequestMessage;
 import com.shipping.backend.entities.PackageTypeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,18 +20,23 @@ public class ShippingRetrivalServiceImpl implements  ShippingRetrivalService {
 
     private final static Logger log = LoggerFactory.getLogger(ShippingRetrivalServiceImpl.class);
 
-    private ShippingRequestSender shippingRequestSender;
+    @Autowired
+    private AppConfig appConfig;
 
-    public  ShippingRetrivalServiceImpl( final ShippingRequestSender shippingRequestSender){
+    private ShippingRequestSender shippingRequestSender;
+    private ObjectMapper mapper;
+
+    public  ShippingRetrivalServiceImpl( final ShippingRequestSender shippingRequestSender,
+                                        final ObjectMapper mapper){
         this.shippingRequestSender=shippingRequestSender;
+        this.mapper=mapper;
     }
 
     @Override
     public List<PackageTypeResponse> getTypes() throws JsonProcessingException, JsonMappingException, IOException {
 
             BaseRequestMessage baseRequestMessage = new BaseRequestMessage();
-            ObjectMapper mapper = new ObjectMapper();
-            baseRequestMessage.setType("packageType");
+            baseRequestMessage.setType(appConfig.getPackageTypes());
             String requestMessage = mapper.writeValueAsString(baseRequestMessage);
             CollectionType responseType = mapper.getTypeFactory().constructCollectionType(List.class, PackageTypeResponse.class);
             List<PackageTypeResponse> packageTypes = mapper.readValue(shippingRequestSender.sendRequest(requestMessage), responseType);

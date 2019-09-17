@@ -1,7 +1,7 @@
 package com.shipping.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shipping.backend.config.CommonVars;
+import com.shipping.backend.config.AppConfig;
 import com.shipping.backend.controllers.ShippingRetrivalServiceController;
 import com.shipping.backend.entities.BaseRequestMessage;
 import com.shipping.backend.entities.PackageTypeResponse;
@@ -11,12 +11,9 @@ import com.shipping.backend.services.ShippingRetrivalService;
 import com.shipping.backend.services.ShippingRetrivalServiceImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +21,8 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
 
-
+@ContextConfiguration(classes = AppConfig.class)
+@TestPropertySource(locations = "/application-test.properties")
 public class BackendApplicationTests {
 
     private static RabbitTemplate rabbitTemplate;
@@ -32,12 +30,13 @@ public class BackendApplicationTests {
     private static ShippingRetrivalService shippingRetrivalService;
     private static ShippingRetrivalServiceController shippingRetrivalServiceController;
     private static BaseRequestMessage baseRequestMessage = new BaseRequestMessage();
+    private static ObjectMapper mapper = new ObjectMapper();
 
     @BeforeClass
     public static void setUp(){
         rabbitTemplate = mock(RabbitTemplate.class);
         shippingRequestSender = new ShippingRequestSenderImpl(rabbitTemplate);
-        shippingRetrivalService = new ShippingRetrivalServiceImpl(shippingRequestSender);
+        shippingRetrivalService = new ShippingRetrivalServiceImpl(shippingRequestSender, mapper);
         shippingRetrivalServiceController = new ShippingRetrivalServiceController(shippingRetrivalService);
     }
 

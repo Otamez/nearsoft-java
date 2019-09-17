@@ -1,20 +1,16 @@
 package com.shipping.backend.config;
 
-import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@PropertySource("classpath:prod.properties")
-@Configuration
-@ComponentScan
+@Component
 public class AppConfig {
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
 
-    public static void main(String[] args) {
-        AnnotationConfigApplicationContext context =
-                new AnnotationConfigApplicationContext(AppConfig.class);
-        CommonVars rs = context.getBean(CommonVars.class);
+    @Value("${ui-url-request.package-types}")
+    private String packageTypes;
+
+    public String getPackageTypes() {
+        return packageTypes;
     }
 }
