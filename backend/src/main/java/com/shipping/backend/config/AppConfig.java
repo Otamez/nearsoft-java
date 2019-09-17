@@ -13,4 +13,8 @@ public class AppConfig {
     public String getPackageTypes() {
         return packageTypes;
     }
+
+    public void setPackageTypes(String packageTypes) {
+        this.packageTypes = packageTypes;
+    }
 }

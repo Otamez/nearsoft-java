@@ -6,13 +6,13 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ShippingRequestSenderImpl implements  ShippingRequestSender{
+public class ShippingQueueImpl implements ShippingQueue {
 
-    private final static Logger log = LoggerFactory.getLogger(ShippingRequestSenderImpl.class);
+    private final static Logger log = LoggerFactory.getLogger(ShippingQueueImpl.class);
 
     private RabbitTemplate rabbitTemplate;
 
-    public  ShippingRequestSenderImpl( final RabbitTemplate rabbitTemplate){
+    public ShippingQueueImpl(final RabbitTemplate rabbitTemplate){
         this.rabbitTemplate = rabbitTemplate;
     }
 
