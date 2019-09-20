@@ -21,14 +21,16 @@ public class QueueResponseHandlerImp implements QueueResponseHandler {
     private final static Logger log = LoggerFactory.getLogger(QueueResponseHandlerImp.class);
 
     private QueueClient shippingRequestSender;
-    private AppConfiguration appConfiguration = new AppConfiguration();
+    private AppConfiguration appConfiguration;
 
-    public QueueResponseHandlerImp(final QueueClient shippingRequestSender){
+    public QueueResponseHandlerImp(final QueueClient shippingRequestSender,
+                                   final AppConfiguration appConfiguration){
         this.shippingRequestSender=shippingRequestSender;
+        this.appConfiguration=appConfiguration;
     }
 
     @Override
-    public List<PackageType> getTypes() throws JsonProcessingException, JsonMappingException, IOException {
+    public List<PackageType> getTypes() throws IOException {
 
             QueueRequestMessage baseRequestMessage = new QueueRequestMessage();
             ObjectMapper mapper = new ObjectMapper();

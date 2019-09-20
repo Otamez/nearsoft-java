@@ -1,6 +1,7 @@
 package com.shipping.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shipping.backend.config.AppConfiguration;
 import com.shipping.backend.config.QueueClient;
 import com.shipping.backend.controllers.ShipmentRetrievalController;
 import com.shipping.backend.entities.PackageType;
@@ -24,13 +25,15 @@ public class BackendApplicationTests {
     private static QueueClient shippingRequestSender;
     private static QueueResponseHandler queueResponseHandler;
     private static ShipmentRetrievalController shippingRetrivalServiceController;
+    private static AppConfiguration appConfiguration;
     private static QueueRequestMessage baseRequestMessage = new QueueRequestMessage();
 
     @BeforeClass
     public static void setUp(){
         rabbitTemplate = mock(RabbitTemplate.class);
         shippingRequestSender = new QueueClient(rabbitTemplate);
-        queueResponseHandler = new QueueResponseHandlerImp(shippingRequestSender);
+        appConfiguration = new AppConfiguration();
+        queueResponseHandler = new QueueResponseHandlerImp(shippingRequestSender, appConfiguration);
         shippingRetrivalServiceController = new ShipmentRetrievalController(queueResponseHandler);
     }
 
@@ -40,6 +43,8 @@ public class BackendApplicationTests {
 	    //Add some mock values for the test request
         baseRequestMessage.setType("packageType");
         PackageType packageTypeResponse1 = new PackageType();
+
+        appConfiguration.setPackageTypes("packageType");
 
 	    //Add some mock values for the test response
         packageTypeResponse1.setId(1);
