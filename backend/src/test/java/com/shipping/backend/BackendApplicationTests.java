@@ -1,39 +1,37 @@
 package com.shipping.backend;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shipping.backend.controllers.ShippingRetrivalServiceController;
-import com.shipping.backend.entities.BaseRequestMessage;
-import com.shipping.backend.entities.PackageTypeResponse;
-import com.shipping.backend.services.ShippingRequestSender;
-import com.shipping.backend.services.ShippingRequestSenderImpl;
-import com.shipping.backend.services.ShippingRetrivalService;
-import com.shipping.backend.services.ShippingRetrivalServiceImpl;
+import com.shipping.backend.config.QueueClient;
+import com.shipping.backend.controllers.ShipmentRetrievalController;
+import com.shipping.backend.entities.PackageType;
+import com.shipping.backend.entities.QueueRequestMessage;
+import com.shipping.backend.services.QueueResponseHandler;
+import com.shipping.backend.services.QueueResponseHandlerImp;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class BackendApplicationTests {
 
     private static RabbitTemplate rabbitTemplate;
-    private static ShippingRequestSender shippingRequestSender;
-    private static ShippingRetrivalService shippingRetrivalService;
-    private static ShippingRetrivalServiceController shippingRetrivalServiceController;
-    private static BaseRequestMessage baseRequestMessage = new BaseRequestMessage();
+    private static QueueClient shippingRequestSender;
+    private static QueueResponseHandler queueResponseHandler;
+    private static ShipmentRetrievalController shippingRetrivalServiceController;
+    private static QueueRequestMessage baseRequestMessage = new QueueRequestMessage();
 
     @BeforeClass
     public static void setUp(){
         rabbitTemplate = mock(RabbitTemplate.class);
-        shippingRequestSender = new ShippingRequestSenderImpl(rabbitTemplate);
-        shippingRetrivalService = new ShippingRetrivalServiceImpl(shippingRequestSender);
-        shippingRetrivalServiceController = new ShippingRetrivalServiceController(shippingRetrivalService);
+        shippingRequestSender = new QueueClient(rabbitTemplate);
+        queueResponseHandler = new QueueResponseHandlerImp(shippingRequestSender);
+        shippingRetrivalServiceController = new ShipmentRetrievalController(queueResponseHandler);
     }
 
 	@Test
@@ -41,14 +39,14 @@ public class BackendApplicationTests {
 
 	    //Add some mock values for the test request
         baseRequestMessage.setType("packageType");
-        PackageTypeResponse packageTypeResponse1 = new PackageTypeResponse();
+        PackageType packageTypeResponse1 = new PackageType();
 
 	    //Add some mock values for the test response
         packageTypeResponse1.setId(1);
         packageTypeResponse1.setDescription("Box");
         packageTypeResponse1.setPrice(10);
 
-        PackageTypeResponse[] typeResponseArray = new PackageTypeResponse[]{packageTypeResponse1};
+        PackageType[] typeResponseArray = new PackageType[]{packageTypeResponse1};
 
         String mockTypes = new ObjectMapper().writeValueAsString(typeResponseArray);
         String mockRequest = new ObjectMapper().writeValueAsString(baseRequestMessage);

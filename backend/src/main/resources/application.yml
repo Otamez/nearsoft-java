@@ -9,3 +9,12 @@ spring:
       default-receive-queue: db-queue
       exchange: db-exchange
       routing-key: "#"
+
+#UI message types
+ui-message:
+  package-types: packageType
+  package-sizes: packageSize
+  transports:
+    type: transportType
+    Velocity: transportVelocity
+  cities: city
