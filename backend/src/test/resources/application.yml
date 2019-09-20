@@ -1,0 +1,20 @@
+#RabbitMQ Server configuration
+spring:
+  rabbitmq:
+    host: javaschoolrmqrv2dutokzu7as-vm0.southcentralus.cloudapp.azure.com
+    port: 5672
+    username: user
+    password: JavaSchool.1234
+    template:
+      default-receive-queue: db-queue
+      exchange: db-exchange
+      routing-key: "#"
+
+#UI message types
+ui-message:
+  package-types: packageType
+  package-sizes: packageSize
+  transports:
+    type: transportType
+    Velocity: transportVelocity
+  cities: city
