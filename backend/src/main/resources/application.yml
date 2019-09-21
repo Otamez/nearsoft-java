@@ -9,10 +9,6 @@ spring:
       exchange: db-exchange
       routing-key: "#"
 
-<<<<<<< HEAD
-ui-url-request:
-  package-types: packageType
-=======
 #UI message types
 ui-message:
   package-types: packageType
@@ -20,4 +16,3 @@ ui-message:
   transport-types: transportType
   transport-velocity: transportVelocity
   cities: city
->>>>>>> 218d14fd143027dc84ff754e4908b3309aaca5dd
