@@ -52,7 +52,7 @@ public class BackendApplicationTests {
 
         //This line should be remove once i can implement TestPropertySource
         appConfiguration.setPackageTypes("packageType");
-        
+
         //Mocked Response Values
         PackageType packageType = new PackageType();
         packageType.setId(1);
