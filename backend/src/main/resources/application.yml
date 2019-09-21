@@ -6,7 +6,6 @@ spring:
     username: user
     password: JavaSchool.1234
     template:
-      default-receive-queue: db-queue
       exchange: db-exchange
       routing-key: "#"
 
@@ -14,7 +13,6 @@ spring:
 ui-message:
   package-types: packageType
   package-sizes: packageSize
-  transports:
-    type: transportType
-    Velocity: transportVelocity
+  transport-types: transportType
+  transport-velocity: transportVelocity
   cities: city

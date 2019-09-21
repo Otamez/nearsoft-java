@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,7 @@ public class ShipmentRetrievalController {
     }
 
     @GetMapping("/package-types")
-    public List<String> getTypes() throws IOException {
+    public List<String> packageTypes(){
         return queueResponseHandler.getTypes().stream().map(packageType -> packageType.getDescription()).collect(Collectors.toList());
     }
 }

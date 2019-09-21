@@ -6,5 +6,5 @@ import java.io.IOException;
 import java.util.List;
 
 public interface QueueResponseHandler {
-    public List<PackageType> getTypes() throws IOException;
+    public List<PackageType> getTypes();
 }
