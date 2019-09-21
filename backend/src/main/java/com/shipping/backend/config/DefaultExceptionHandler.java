@@ -1,9 +1,5 @@
 package com.shipping.backend.config;
 
-<<<<<<< HEAD
-public class DefaultExceptionHandler {
-=======
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,5 +19,4 @@ public class DefaultExceptionHandler {
         log.info("Server response with a null value");
         return ResponseEntity.status(HttpStatus.OK).body(e.getMessage());
     }
->>>>>>> 218d14fd143027dc84ff754e4908b3309aaca5dd
 }
